@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+	<style>
+body {
+	font-size: 12px;
+}
+
+.booksimages {
+	height: 200px;
+	width: 140px;
+}
+
+.iconOnlyButton {
+	background: transparent !important;
+	border: none !important;
+	margin: 0;
+	background-image: url("#{resource['images_books/carshop.png']}")
+		!important;
+	background-position: 0px 0px;
+	padding: 5px;
+	width: 40px;
+	height: 40px;
+}
+
+.ui-carousel {
+	border: none;
+}
+
+.ui-carousel-header {
+	background-color: #003946;
+	color: black;
+	font-family: verdana;
+	font-size: 1.4em;
+	font-weight: bold;
+	padding-right: 0px !important;
+	
+}
+
+.ui-carousel-dropdown {
+	background-color: white !important;
+	color: black;
+	font-family: verdana;
+}
+
+.ui-carousel-item {
+	font-family: verdana;
+	font-weight: bold;
+	color: black !important;
+}
+</style>
+</h:head>
+
+<body>
+ 
+ 	<p align="right">
+		<p:commandButton icon="cartshop" styleClass="iconOnlyButton" action="#{carDetail.viewDetail()}" />
+		<p:outputLabel value="4 libros"></p:outputLabel>
+ 	</p>
+	
+	<h:form id="form">
+		<p:carousel value="#{carouselView.cars}"
+			headerText="Catálogo de libros" var="car"
+			 circular="true" 
+             autoPlayInterval="4000"
+			 itemStyle="text-align:center" responsive="true">
+			<p:panelGrid columns="2" style="width:100%;margin:10px 0px"
+				columnClasses="label,value" layout="grid"
+				styleClass="ui-panelgrid-blank">
+				<f:facet name="header">
+					<p:graphicImage styleClass="booksimages"  name="images_books/#{car.brand}.jpg" />
+				</f:facet>
+				
+				<h:outputText value="Id:" />
+				<h:outputText value="#{car.id}" />
+
+				<h:outputText value="Titulo:" />
+				<h:outputText value="#{car.year}" />
+
+				<h:outputText value="Descr:" />
+				<h:outputText value="#{car.color}" style="color:#{car.color}" />
+
+				<h:outputText value="Precio" />
+				<h:outputText value="$#{car.price}" />
+				
+			<f:facet name="footer"  >
+			<p style="text-align:right; font-size:12px;">
+				<p:commandButton value="Agregar" icon="ui-icon-plus"></p:commandButton>
+			</p>
+			</f:facet>
+			</p:panelGrid>
+		</p:carousel>
+		<p align="center">
+			<p:commandLink value="Salir de la tienda" action="#{user.logout}"></p:commandLink>
+		</p>
+	</h:form>
+</body>
+</html>

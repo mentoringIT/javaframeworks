@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>#{msgs.title}</title>
+
+	<style>
+.borders>tbody>tr {
+	border: none !important;
+}
+
+.borders>tbody>tr>td {
+	border: none !important;
+}
+</style>
+
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:panelGrid cellpadding="5" styleClass="borders"
+			style="width:300px; margin:auto; margin-top: 20%; 
+			border-style:solid; border-width:1px; 
+			border-color:gray;">
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">
+						<p:outputLabel value="Login">
+						</p:outputLabel>
+					</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="nombre" value="Usuario"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:inputText id="nombre" required="true"
+						requiredMessage="Ingrese usuario"
+						value="#{user.user}">
+					</p:inputText>
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<p:outputLabel for="password" value="Password"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:password id="password" required="true"
+						requiredMessage="Ingrese la contraseña"
+						value="#{user.password}">
+					</p:password>
+				</p:column>
+			</p:row>
+
+			<p:row style="text-align:right;">
+				<p:column colspan="2">
+					<h:commandButton value="Entrar"
+					action="#{user.login()}"></h:commandButton>
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="2">
+					<p:messages autoUpdate="true" closable="true"
+						style="font-size:11px">
+					</p:messages>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>
