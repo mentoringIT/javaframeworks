@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/10/2017 06:48:09 AM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="mx.com.mentoringit.model.entities.PurchaseOrder" table="purchase_order" >
+        <id name="purchaseOrderId" type="java.lang.Integer">
+            <column name="PURCHASE_ORDER_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="addressByShipToAddressId" class="mx.com.mentoringit.model.entities.Address" fetch="select">
+            <column name="SHIP_TO_ADDRESS_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="addressByBillToAddressId" class="mx.com.mentoringit.model.entities.Address" fetch="select">
+            <column name="BILL_TO_ADDRESS_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="users" class="mx.com.mentoringit.model.entities.Users" fetch="select">
+            <column name="USERNAME" length="50" not-null="true" />
+        </many-to-one>
+        <property name="orderDate" type="date">
+            <column name="ORDER_DATE" length="10" not-null="true" />
+        </property>
+        <property name="totalPrice" type="float">
+            <column name="TOTAL_PRICE" not-null="true" />
+        </property>
+        <set name="lineItems" table="line_item" inverse="true" lazy="true" cascade="save-update" fetch="select">
+            <key>
+                <column name="PURCHASE_ORDER_ID" not-null="true" />
+            </key>
+            <one-to-many class="mx.com.mentoringit.model.entities.LineItem"  />
+        </set>
+    </class>
+</hibernate-mapping>

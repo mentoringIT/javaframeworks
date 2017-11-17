@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/10/2017 06:48:09 AM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="mx.com.mentoringit.model.entities.Author" table="author" >
+        <id name="authorId" type="java.lang.Integer">
+            <column name="AUTHOR_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="authorName" type="string">
+            <column name="AUTHOR_NAME" not-null="true" />
+        </property>
+        <set name="books" table="author_book" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="AUTHOR_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="mx.com.mentoringit.model.entities.Book">
+                <column name="BOOK_ID" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

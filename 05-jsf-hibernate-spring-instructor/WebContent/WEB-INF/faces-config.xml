@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/loggedOut.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/welcome.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/failure.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/welcome.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/loggedOut.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>detail</from-outcome>
+			<to-view-id>/carDetail.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/carDetail.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>bookstore</from-outcome>
+			<to-view-id>/welcome.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<application>
+		<resource-bundle>
+			<base-name>mx.com.mentoringit.messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
+</faces-config>

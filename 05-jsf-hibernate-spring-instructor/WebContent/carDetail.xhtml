@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event type="preRenderView" listener="#{user.preRenderView}" />
+</f:metadata>
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+	<style>
+body {
+	font-size: 12px;
+}
+
+.booksimages {
+	height: 200px;
+	width: 140px;
+}
+
+.detailGrid td {
+	vertical-align: top;
+}
+</style>
+</h:head>
+
+<h:body>
+
+	<h:form id="formRepeat">
+		<p align="right" style="padding: 0px;">
+			<p:commandButton value="Seguir comprando"
+				action="#{carDetailView.continuaComprando()}"></p:commandButton>
+		</p>
+		<p:growl id="message" showDetail="true" />
+		<p:panelGrid id="panelRepeat" columns="2"
+			style="width:100%;  min-width:800px;" styleClass="detailGrid">
+			<p:repeat value="#{carDetailView.carShopping}" var="item" >
+
+				<h:panelGrid columns="4" style="width:100%; border-top:solid 1px; "
+					columnClasses="logo,detail,price,quantity">
+
+					<p:graphicImage styleClass="booksimages"
+						name="images_books/#{item.bookDTO.image}" />
+
+					<p:outputPanel>
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputText value="Id:" />
+							<h:outputText value="#{item.bookDTO.bookId}"
+								style="font-weight: bold" />
+
+							<h:outputText value="Titulo:" />
+							<h:outputText value="#{item.bookDTO.title}"
+								style="font-weight: bold" />
+
+							<h:outputText value="Descripcion:" />
+							<h:outputText value="#{item.bookDTO.description}"
+								style="font-weight: bold;" />
+
+							<h:outputText value="Precio" />
+							<h:outputText value="$#{item.bookDTO.listPrice}" />
+						</h:panelGrid>
+					</p:outputPanel>
+
+					<p:outputPanel>
+						<h:panelGrid>
+							<h:outputLabel value="Cantidad: " />
+							<p:spinner size="3" min="1" value="#{item.quantity}">
+								<p:ajax update=":formRepeat:resumenPedido" />
+							</p:spinner>
+							<p:commandButton value="Eliminar" update=":formRepeat"
+								actionListener="#{carDetailView.removeBookFromCar(item.bookDTO)}">
+							</p:commandButton>
+						</h:panelGrid>
+					</p:outputPanel>
+				</h:panelGrid>
+				<br />
+			</p:repeat>
+
+			<p:panel columns="1"
+				style="height:100%; border:none; min-height:500px; min-width:300px; max-width:400px;">
+				<p:panel id="resumenPedido" header="Resumen del pedido"
+					footer="Gracias por comprar en MentoringIT"
+					style="margin-bottom:20px">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputLabel value="Productos: " />
+						<p:outputLabel
+							value="#{carDetailView.purchaseOrderDTO.lineItemsDTO.size()}" />
+						<h:outputLabel value="Dirección de envío: " />
+						<p:outputLabel />
+						<h:outputLabel value="Precio total: " />
+						<p:outputLabel id="totalPrice"
+							value="#{carDetailView.purchaseOrderDTO.totalPrice}">
+							<f:convertNumber for="totalPrice" type="currency"
+								currencySymbol="$" />
+						</p:outputLabel>
+					</h:panelGrid>
+					<f:facet name="footer">
+						<p align="center">
+							<p:commandButton style="width:100%; height:50px;" disabled="#{carDetailView.carShopping.size() == 0}"
+								value="Realizar el pago" update="message :formRepeat"
+								actionListener="#{carDetailView.saveOrder()}">
+								<p:confirm header="Aviso" message="Desea completar la compra?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button" 
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</f:facet>
+				</p:panel>
+			</p:panel>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

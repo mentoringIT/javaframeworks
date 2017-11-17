@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/10/2017 06:48:09 AM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="mx.com.mentoringit.model.entities.Address" table="address" >
+        <id name="addressId" type="java.lang.Integer">
+            <column name="ADDRESS_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="mx.com.mentoringit.model.entities.Users" fetch="select">
+            <column name="USERNAME" length="50" not-null="true" />
+        </many-to-one>
+        <property name="street" type="string">
+            <column name="STREET" not-null="true" />
+        </property>
+        <property name="zipcode" type="string">
+            <column name="ZIPCODE" length="16" not-null="true" />
+        </property>
+        <property name="city" type="string">
+            <column name="CITY" not-null="true" />
+        </property>
+        <set name="purchaseOrdersForBillToAddressId" table="purchase_order" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="BILL_TO_ADDRESS_ID" not-null="true" />
+            </key>
+            <one-to-many class="mx.com.mentoringit.model.entities.PurchaseOrder" />
+        </set>
+        <set name="purchaseOrdersForShipToAddressId" table="purchase_order" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="SHIP_TO_ADDRESS_ID" not-null="true" />
+            </key>
+            <one-to-many class="mx.com.mentoringit.model.entities.PurchaseOrder" />
+        </set>
+    </class>
+</hibernate-mapping>

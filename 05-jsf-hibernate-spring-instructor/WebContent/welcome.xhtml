@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<f:metadata>
+	<f:event type="preRenderView" listener="#{user.preRenderView}" />
+</f:metadata>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+
+	<style>
+body {
+	font-size: 12px;
+}
+
+.booksimages {
+	height: 200px;
+	width: 140px;
+}
+
+.ui-carousel {
+	border: none;
+}
+
+.ui-carousel-header {
+	background-color: #003946;
+	color: black;
+	font-family: verdana;
+	font-size: 1.4em;
+	font-weight: bold;
+	padding-right: 0px !important;
+}
+
+.ui-carousel-dropdown {
+	background-color: white !important;
+	color: black;
+	font-family: verdana;
+}
+
+.ui-carousel-item {
+	font-family: verdana;
+	font-weight: bold;
+	color: black !important;
+}
+
+.descriptionBooks {
+	cursor: pointer;
+}
+
+.cartQuantityNumber {
+	font-size: 60px;
+	padding: 10px;
+	vertical-align: bottom;
+	font-style: oblique;
+}
+
+.iconOnlyButton {
+	background: transparent !important;
+	border: none !important;
+	margin: 0;
+	background-image: url("#{resource['images_books/shopping-cart.png']}")
+		!important;
+	background-size: 30px 30px; 
+	background-repeat : no-repeat;
+	background-position: 0px 0px;
+	padding: 5px;
+	width: 64px;
+	height: 65px;
+}
+</style>
+
+</h:head>
+
+<body>
+	<h:form id="bookStore">
+		<p align="right">
+
+			<p:commandLink action="#{carDetailView.viewDetail()}">				
+				<p:graphicImage style="width:30px; height:30px;" 
+				name="images_books/shopping-cart.png"></p:graphicImage>
+			</p:commandLink>
+
+			<p:outputLabel id="cartQuantity" styleClass="cartQuantityNumber"
+				value="#{carDetailView.purchaseOrderDTO.lineItemsDTO.size()}"></p:outputLabel>
+		</p>
+
+		<p:carousel widgetVar="carouselView" id="carouselView"
+			value="#{bookStoreView.books}" headerText="Responsive" var="book"
+			itemStyle="text-align:center" responsive="true"
+			autoPlayInterval="7000">
+			<p:panelGrid columns="2" style="width:100%;margin:10px 0px"
+				columnClasses="label,value" layout="grid"
+				styleClass="ui-panelgrid-blank">
+				<f:facet name="header">
+					<p:graphicImage styleClass="booksimages"
+						name="images_books/#{book.image}" />
+				</f:facet>
+
+				<h:outputText value="Id:" />
+				<h:outputText value="#{book.bookId}" />
+
+				<h:outputText value="Titulo" />
+				<h:outputText value="#{book.title}" />
+
+				<h:outputText value="Descripci&oacute;n:" />
+				<h:outputText id="description" styleClass="descriptionBooks"
+					value="#{book.description.substring(0,20)}...">
+				</h:outputText>
+				<p:tooltip for="description" style="width:200px;height:200px;"
+					value="#{book.description}"></p:tooltip>
+
+				<h:outputText value="Precio" />
+				<h:outputText value="$#{book.listPrice}" />
+				<f:facet name="footer">
+					<p align="center">
+						<p:commandButton value="Agregar al carrito" 
+						icon="ui-icon-plus" 
+						update=":bookStore:cartQuantity"
+
+						actionListener="#{bookStoreView.addItemToCar(book.bookId)}">
+						</p:commandButton>
+					</p>
+				</f:facet>
+			</p:panelGrid>
+
+			<f:facet name="footer">
+                Libros en inventario #{fn:length(bookStoreView.books)}.
+        </f:facet>
+		</p:carousel>
+		<p align="center">
+			<p:commandLink value="Salir de la tienda" action="#{user.logout}"></p:commandLink>
+		</p>
+
+
+	</h:form>
+</body>
+</html>

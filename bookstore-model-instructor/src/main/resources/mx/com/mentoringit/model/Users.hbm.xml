@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/10/2017 06:48:09 AM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="mx.com.mentoringit.model.entities.Users" table="users" >
+        <id name="username" type="string">
+            <column name="USERNAME" length="50" />
+            <generator class="assigned" />
+        </id>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="50" not-null="true" />
+        </property>
+        <property name="enabled" type="int">
+            <column name="ENABLED" not-null="true" />
+        </property>
+        <property name="fullName" type="string">
+            <column name="FULL_NAME" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" not-null="true" />
+        </property>
+        <property name="created" type="timestamp">
+            <column name="CREATED" length="19" not-null="true" />
+        </property>
+        <property name="dayOfBirth" type="date">
+            <column name="DAY_OF_BIRTH" length="10" not-null="true" />
+        </property>
+        <property name="gender" type="string">
+            <column name="GENDER" not-null="true" />
+        </property>
+        <set name="purchaseOrders" table="purchase_order" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USERNAME" length="50" not-null="true" />
+            </key>
+            <one-to-many class="mx.com.mentoringit.model.entities.PurchaseOrder" />
+        </set>
+        <one-to-one name="authorities" class="mx.com.mentoringit.model.entities.Authorities">
+        
+        </one-to-one>
+        <set name="addresses" table="address" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USERNAME" length="50" not-null="true" />
+            </key>
+            <one-to-many class="mx.com.mentoringit.model.entities.Address" />
+        </set>
+    </class>
+</hibernate-mapping>
